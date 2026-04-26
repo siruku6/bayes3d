@@ -84,14 +84,17 @@ if os.name == "nt":
         pass
 
 
+ext_modules = [
+    cpp_extension.CUDAExtension(
+        name="bayes3d.rendering.nvdiffrast.nvdiffrast_plugin_gl",
+        sources=source_files,
+        extra_compile_args={"cxx": opts, "nvcc": opts + ["-lineinfo"]},
+        extra_link_args=ldflags,
+    ),
+]
+
+
 setuptools.setup(
-    ext_modules=[
-        cpp_extension.CUDAExtension(
-            name="bayes3d.rendering.nvdiffrast.nvdiffrast_plugin_gl",
-            sources=source_files,
-            extra_compile_args={"cxx": opts, "nvcc": opts + ["-lineinfo"]},
-            extra_link_args=ldflags,
-        ),
-    ],
+    ext_modules=ext_modules,
     cmdclass={"build_ext": cpp_extension.BuildExtension},
 )

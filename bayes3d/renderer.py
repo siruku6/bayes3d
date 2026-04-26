@@ -8,7 +8,11 @@ import trimesh
 from jax import core, dtypes
 from jax.core import ShapedArray
 from jax.interpreters import batching, mlir, xla
+
+# *** xla_client will be obsolete ***
 from jax.lib import xla_client
+
+# *** hlo_helpers will be obsolete ***
 from jaxlib.hlo_helpers import custom_call
 
 import bayes3d as b
@@ -126,7 +130,7 @@ class Renderer(object):
         bounding_box_dims, bounding_box_pose = bayes3d.utils.aabb(mesh.vertices)
         if center_mesh:
             if not jnp.isclose(bounding_box_pose[:3, 3], 0.0).all():
-                print(f"Centering mesh with translation {bounding_box_pose[:3,3]}")
+                print(f"Centering mesh with translation {bounding_box_pose[:3, 3]}")
             mesh.vertices = mesh.vertices - bounding_box_pose[:3, 3]
 
         self.meshes.append(mesh)
@@ -186,8 +190,10 @@ class Renderer(object):
 
 @functools.lru_cache
 def _register_custom_calls():
-    for _name, _value in dr._get_plugin(gl=True).registrations().items():
+    plugins = dr._get_plugin(gl=True)
+    for _name, _value in plugins.registrations().items():
         xla_client.register_custom_call_target(_name, _value, platform="gpu")
+        # xla.register_custom_call_target(_name, _value, platform="gpu")
 
 
 @functools.partial(jax.jit, static_argnums=(0,))

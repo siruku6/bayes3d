@@ -37,3 +37,9 @@ assets/*
 # Distribution / packaging
 build/
 dist/
+
+# --------------------------------------------------------
+# Custom ignore rules
+# --------------------------------------------------------
+.env
+docker-compose.override.yml

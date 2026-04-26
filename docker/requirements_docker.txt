@@ -1,27 +1,6 @@
-scikit-learn
-wheel
-ipython
-jupyter
-numpy
-matplotlib
-pillow
-opencv-python-headless<4.3
-open3d
-graphviz
-distinctipy
-trimesh
-ninja
-pyransac3d
-meshcat
-h5py
-gdown
-pytest
-zmq
-tqdm
-jupyterlab
-imageio
-timm
-joblib
-pdoc3
-addict
-flax
+# Deprecated.
+#
+# Docker dependency pins are now managed in:
+#   pyproject.toml -> [project.optional-dependencies].docker
+#
+# Keep this file only for backward compatibility/documentation.
