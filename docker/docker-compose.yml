@@ -1,0 +1,25 @@
+services:
+  bayes3d:
+    user: "${UID}:${GID}"
+    image: bayes3d-base
+    # platform: linux/amd64
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+      args:
+        WORKDIR: /workspace
+        MACHINE_USER: ${MACHINE_USER}
+        UID: ${UID}
+        GID: ${GID}
+    environment:
+      - UV_PROJECT_ENVIRONMENT=${UV_PROJECT_ENVIRONMENT:-/workspace/.venv/}
+      # - PATH="$VIRTUAL_ENV/bin:$PATH"
+      - PYTHONPATH=/usr/local/lib/python3.12/dist-packages/
+    shm_size: '20gb'
+    init: true
+    tty: true
+    stdin_open: true
+    volumes:
+      # bind mount
+      - ../:/workspace/opt/
+    command: /bin/bash
